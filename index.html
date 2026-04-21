@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charles A. Kerbaj</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f4ee;
+      --cream2: #efe9dd;
+      --parchment: #e8dfc8;
+      --ink: #1c1a17;
+      --ink2: #6b6456;
+      --ink3: #a89e8e;
+      --gold: #9a7c3f;
+      --gold2: #c4a05a;
+      --border: rgba(28,26,23,0.1);
+      --border2: rgba(28,26,23,0.18);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Jost', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+      font-weight: 300;
+    }
+
+    /* subtle paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 6vw;
+      background: rgba(247,244,238,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo em { font-style: italic; color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink2);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 6vw 6rem;
+      position: relative;
+      gap: 4rem;
+    }
+    .hero-left { position: relative; }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s ease both;
+    }
+    .eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+    .eyebrow-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 400;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      animation: fadeUp 0.7s 0.1s ease both;
+      color: var(--ink);
+    }
+    h1 em { font-style: italic; font-weight: 300; }
+    .hero-rule {
+      width: 60px; height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin: 2rem 0;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--ink2);
+      max-width: 420px;
+      line-height: 1.85;
+      font-weight: 300;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 1.25rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+    }
+    .btn-primary:hover { background: var(--gold); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border2);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+    .hero-stat {
+      padding: 1.75rem 2rem;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.4);
+      display: flex; flex-direction: column;
+    }
+    .hero-stat + .hero-stat { border-top: none; }
+    .stat-val {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .stat-val em { font-style: italic; color: var(--gold); }
+    .stat-desc { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+
+    /* SECTIONS */
+    section { padding: 7rem 6vw; position: relative; z-index: 1; }
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .section-eyebrow .eyebrow-line { width: 30px; height: 1px; background: var(--gold); }
+    .section-eyebrow span { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    h2 em { font-style: italic; }
+    .section-lead { color: var(--ink2); max-width: 480px; font-size: 0.95rem; margin-bottom: 4rem; line-height: 1.85; }
+
+    /* ABOUT */
+    #about { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 5fr 4fr; gap: 6rem; align-items: start; max-width: 1100px; }
+    .about-body p { color: var(--ink2); margin-bottom: 1.1rem; font-size: 0.95rem; line-height: 1.85; }
+    .about-distinctions { margin-top: 2.5rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+    .distinction {
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .distinction-marker { color: var(--gold); font-family: var(--serif); font-size: 1rem; flex-shrink: 0; }
+    .distinction span { color: var(--ink2); }
+    .distinction strong { color: var(--ink); font-weight: 400; }
+
+    .about-aside {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: sticky; top: 6rem;
+    }
+    .about-photo-wrap {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--cream2);
+      margin-bottom: 1.75rem;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .photo-ph { text-align: center; color: var(--ink3); font-size: 0.78rem; letter-spacing: 0.06em; }
+    .photo-ph span { display: block; font-size: 2rem; margin-bottom: 0.5rem; }
+    .aside-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.25rem; }
+    .aside-role { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .aside-contacts { display: flex; flex-direction: column; gap: 0; }
+    .aside-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      font-size: 0.8rem;
+      color: var(--ink2);
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .aside-link:last-child { border-bottom: none; }
+    .aside-link:hover { color: var(--gold); }
+    .aside-link-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); width: 50px; flex-shrink: 0; }
+
+    /* PROJECTS */
+    #portfolio { background: var(--cream); }
+    .projects-list { display: flex; flex-direction: column; gap: 0; max-width: 1000px; border-top: 1px solid var(--border); }
+    .project-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .project-row:hover { background: rgba(154,124,63,0.03); }
+    .project-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--parchment);
+      line-height: 1;
+      padding-top: 0.2rem;
+    }
+    .project-main h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .project-main p { font-size: 0.875rem; color: var(--ink2); max-width: 560px; line-height: 1.75; margin-bottom: 1rem; }
+    .project-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .chip {
+      font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--border2);
+      color: var(--ink3);
+    }
+    .project-meta { text-align: right; }
+    .project-status {
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); padding: 0.25rem 0;
+      display: block; margin-bottom: 0.75rem;
+    }
+    .project-link-sm {
+      font-size: 0.72rem; letter-spacing: 0.06em;
+      color: var(--ink2); text-decoration: none;
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .project-link-sm:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* SKILLS */
+    #skills { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; max-width: 1000px; }
+    .skill-col-title {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+    }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .skill-list li {
+      font-size: 0.875rem; color: var(--ink2);
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--border);
+      font-weight: 300;
+      letter-spacing: 0.01em;
+    }
+
+    /* RESUME */
+    #resume { background: var(--cream); }
+    .resume-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1000px; }
+    .resume-group { margin-bottom: 3rem; }
+    .resume-group-title {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .resume-entry { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .resume-entry:last-child { border-bottom: none; }
+    .resume-entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.2rem; flex-wrap: wrap; }
+    .resume-title { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; }
+    .resume-date { font-size: 0.72rem; color: var(--ink3); letter-spacing: 0.05em; white-space: nowrap; }
+    .resume-org { font-size: 0.8rem; color: var(--gold); letter-spacing: 0.04em; margin-bottom: 0.75rem; }
+    .resume-bullets { padding-left: 1rem; }
+    .resume-bullets li { font-size: 0.85rem; color: var(--ink2); margin-bottom: 0.3rem; line-height: 1.65; }
+    .resume-bullets li strong { color: var(--ink); font-weight: 400; }
+    .award-inline {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(154,124,63,0.3);
+      padding: 0.15rem 0.55rem; margin-right: 0.35rem;
+    }
+
+    /* BLOG */
+    #blog { background: white; border-top: 1px solid var(--border); }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; max-width: 1000px; }
+    .blog-card { text-decoration: none; color: inherit; display: block; }
+    .blog-card-top { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .blog-tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.75rem; }
+    .blog-card h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; line-height: 1.3; margin-bottom: 0.75rem; transition: color 0.2s; }
+    .blog-card:hover h3 { color: var(--gold); }
+    .blog-card p { font-size: 0.85rem; color: var(--ink2); line-height: 1.75; }
+    .blog-foot { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--ink3); align-items: center; }
+    .blog-read { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--gold); border-bottom: 1px solid rgba(154,124,63,0.3); padding-bottom: 1px; }
+
+    /* CONTACT */
+    #contact { background: var(--ink); color: var(--cream); }
+    #contact .section-eyebrow .eyebrow-line { background: var(--gold2); }
+    #contact .section-eyebrow span { color: var(--gold2); }
+    #contact h2 { color: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; max-width: 1000px; }
+    .contact-left p { color: rgba(247,244,238,0.6); font-size: 0.95rem; line-height: 1.85; max-width: 380px; margin-bottom: 2rem; }
+    .contact-email-link {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(247,244,238,0.2);
+      padding-bottom: 0.25rem;
+      transition: border-color 0.25s, color 0.25s;
+      display: inline-block;
+    }
+    .contact-email-link:hover { color: var(--gold2); border-color: var(--gold2); }
+    .contact-right { padding-top: 0.5rem; }
+    .contact-item {
+      display: flex; align-items: baseline; gap: 1.5rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid rgba(247,244,238,0.1);
+    }
+    .contact-item-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,244,238,0.35); width: 70px; flex-shrink: 0; }
+    .contact-item a { font-size: 0.875rem; color: rgba(247,244,238,0.7); text-decoration: none; transition: color 0.2s; }
+    .contact-item a:hover { color: var(--gold2); }
+
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(247,244,238,0.08);
+      padding: 1.75rem 6vw;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; letter-spacing: 0.06em;
+      color: rgba(247,244,238,0.3);
+    }
+    footer a { color: rgba(247,244,238,0.3); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold2); }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: grid; grid-template-columns: 1fr 1fr; }
+      .hero-stat + .hero-stat { border-top: 1px solid var(--border); }
+      .skills-cols { grid-template-columns: 1fr 1fr; }
+      .resume-cols { grid-template-columns: 1fr; gap: 0; }
+      .blog-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-aside { position: static; }
+      .project-row { grid-template-columns: 40px 1fr; }
+      .project-meta { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .nav-links li:nth-child(-n+4) { display: none; }
+    }
+    @media (max-width: 540px) {
+      .nav-links { display: none; }
+      .hero-right { grid-template-columns: 1fr; }
+      .skills-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#hero">Charles <em>Kerbaj</em></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#resume">Résumé</a></li>
+      <li><a href="#blog">Writing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Finance · AI · Automation</span>
+      </div>
+      <h1>Charles A.<br><em>Kerbaj.</em></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">Finance student at Bryant University building at the intersection of markets, artificial intelligence, and automation. I trade, I build, and I help others work smarter.</p>
+      <div class="hero-cta">
+        <a href="#portfolio" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat">
+        <div class="stat-val"><em>6</em> Years</div>
+        <div class="stat-desc">Active trading experience</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val">30<em>+</em></div>
+        <div class="stat-desc">Employees managed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val">20<em>%</em></div>
+        <div class="stat-desc">Ownership, Artisan Jewelers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val"><em>4</em>+</div>
+        <div class="stat-desc">Active projects shipping</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid reveal">
+      <div>
+        <div class="section-eyebrow"><div class="eyebrow-line"></div><span>About</span></div>
+        <h2>Trader. Builder.<br><em>Operator.</em></h2>
+        <div class="about-body" style="margin-top:1.75rem">
+          <p>I'm a Finance student at Bryant University with minors in Artificial Intelligence and Communications. I have been actively trading equities, options, and futures since 2019 — and I bring that same analytical, systems-driven mindset to everything I build.</p>
+          <p>During the day I lead operations at Marshfield Famous Pizza and co-own Artisan Jewelers in Marshfield, MA. In my remaining hours, I ship software — connecting APIs, writing trading scripts, and helping people automate the parts of their lives that shouldn't require human attention.</p>
+        </div>
+        <div class="about-distinctions">
+          <div class="distinction"><span class="distinction-marker">—</span><span><strong>Dean's List</strong> — Fall 2024, Spring 2025 &amp; Fall 2025 · GPA 3.33</span></div>
+          <div class="distinction"><span class="distinction-marker">—</span><span>Reduced staff call-outs by <strong>~50%</strong> through a redesigned employee handbook</span></div>
+          <div class="distinction"><span class="distinction-marker">—</span><span><strong>Top of class</strong> in Computer Science, High School 2022</span></div>
+          <div class="distinction"><span class="distinction-marker">—</span><span>Six years equities &amp; three years futures trading experience</span></div>
+        </div>
+      </div>
+      <div class="about-aside">
+        <div class="about-photo-wrap">
+          <div class="photo-ph"><span>📸</span><p style="font-size:0.75rem;letter-spacing:0.06em;color:var(--ink3)">Add your photo here</p></div>
+        </div>
+        <div class="aside-name">Charles A. Kerbaj</div>
+        <div class="aside-role">Bryant University · Class of 2027</div>
+        <div class="aside-contacts">
+          <a href="mailto:ckerbaj23@gmail.com" class="aside-link">
+            <span class="aside-link-label">Email</span>ckerbaj23@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/charles-kerbaj/" class="aside-link">
+            <span class="aside-link-label">LinkedIn</span>charles-kerbaj
+          </a>
+          <a href="https://github.com/ckerbaj23" class="aside-link">
+            <span class="aside-link-label">GitHub</span>ckerbaj23
+          </a>
+          <a href="tel:4016039775" class="aside-link">
+            <span class="aside-link-label">Phone</span>(401) 603-9775
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="portfolio">
+    <div class="section-eyebrow reveal"><div class="eyebrow-line"></div><span>Projects</span></div>
+    <h2 class="reveal">Things I'm <em>building</em></h2>
+    <p class="section-lead reveal">A mix of automation tools, trading scripts, and things built to help others work smarter.</p>
+    <div class="projects-list">
+
+      <div class="project-row reveal">
+        <div class="project-num">01</div>
+        <div class="project-main">
+          <h3>Daily Report Printer</h3>
+          <p>A receipt printer connected to Canvas, Google Calendar, and the Claude API — printing a personalized daily briefing every morning. One button, one receipt, full day clarity. Currently in active development.</p>
+          <div class="project-chips"><span class="chip">Python</span><span class="chip">Claude API</span><span class="chip">Google Calendar API</span><span class="chip">Canvas API</span><span class="chip">Hardware</span></div>
+        </div>
+        <div class="project-meta">
+          <span class="project-status">In Progress</span>
+          <a href="https://github.com/ckerbaj23/daily-printer" class="project-link-sm">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-row reveal">
+        <div class="project-num">02</div>
+        <div class="project-main">
+          <h3>TradingView Scripts &amp; Strategies</h3>
+          <p>Custom Pine Script indicators and trading strategies built on six years of active market experience in equities, options, and futures. Systematic and rules-based.</p>
+          <div class="project-chips"><span class="chip">Pine Script</span><span class="chip">TradingView</span><span class="chip">Options</span><span class="chip">Futures</span></div>
+        </div>
+        <div class="project-meta">
+          <span class="project-status">Building</span>
+          <a href="https://github.com/ckerbaj23/tradingview-scripts" class="project-link-sm">View Scripts →</a>
+        </div>
+      </div>
+
+      <div class="project-row reveal">
+        <div class="project-num">03</div>
+        <div class="project-main">
+          <h3>Life Automation Consulting</h3>
+          <p>Helping friends and peers automate repetitive digital workflows — scheduling, task management, and API integrations. If you're doing something manually more than twice, there is likely a better way.</p>
+          <div class="project-chips"><span class="chip">Python</span><span class="chip">APIs</span><span class="chip">Automation</span><span class="chip">AI</span></div>
+        </div>
+        <div class="project-meta">
+          <span class="project-status">Ongoing</span>
+          <a href="#contact" class="project-link-sm">Work together →</a>
+        </div>
+      </div>
+
+      <div class="project-row reveal">
+        <div class="project-num">04</div>
+        <div class="project-main">
+          <h3>YouTube Analytics Dashboard</h3>
+          <p>Collaborated to build a local YouTube API analytics tool — pulling channel and video performance data into a clean dashboard for content strategy decisions.</p>
+          <div class="project-chips"><span class="chip">YouTube API</span><span class="chip">Python</span><span class="chip">Data Analysis</span></div>
+        </div>
+        <div class="project-meta">
+          <span class="project-status">Complete</span>
+          <a href="https://github.com/ckerbaj23/yt-analytics" class="project-link-sm">View Project →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-eyebrow reveal"><div class="eyebrow-line"></div><span>Skills</span></div>
+    <h2 class="reveal">Areas of <em>expertise</em></h2>
+    <div class="skills-cols reveal" style="margin-top:2.5rem">
+      <div>
+        <div class="skill-col-title">Finance &amp; Trading</div>
+        <ul class="skill-list">
+          <li>Equities &amp; Options</li>
+          <li>Futures Trading</li>
+          <li>Risk Management</li>
+          <li>Financial Modeling</li>
+          <li>Portfolio Strategy</li>
+          <li>Excel &amp; Spreadsheets</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-col-title">Development</div>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>Pine Script</li>
+          <li>HTML &amp; CSS</li>
+          <li>JavaScript</li>
+          <li>Vibe Coding</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-col-title">APIs &amp; Automation</div>
+        <ul class="skill-list">
+          <li>Claude API</li>
+          <li>Google Calendar API</li>
+          <li>Canvas API</li>
+          <li>YouTube API</li>
+          <li>REST APIs</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-col-title">Operations</div>
+        <ul class="skill-list">
+          <li>Team Leadership</li>
+          <li>Payroll &amp; Scheduling</li>
+          <li>Inventory Management</li>
+          <li>Client Relations</li>
+          <li>Communication</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUME -->
+  <section id="resume">
+    <div class="section-eyebrow reveal"><div class="eyebrow-line"></div><span>Résumé</span></div>
+    <h2 class="reveal">Experience &amp; <em>Education</em></h2>
+    <div class="resume-cols reveal" style="margin-top:3rem">
+      <div>
+        <div class="resume-group">
+          <div class="resume-group-title">Professional</div>
+
+          <div class="resume-entry">
+            <div class="resume-entry-head">
+              <span class="resume-title">Front Line Manager</span>
+              <span class="resume-date">2022 – Present</span>
+            </div>
+            <div class="resume-org">Marshfield Famous Pizza — Marshfield, MA</div>
+            <ul class="resume-bullets">
+              <li>Lead a team of <strong>30+ employees</strong> in daily operations and scheduling</li>
+              <li>Manage payroll, shift assignments, and administrative paperwork</li>
+              <li>Designed a handbook that reduced call-outs by <strong>~50%</strong></li>
+              <li>Train and onboard new staff, improving service consistency</li>
+            </ul>
+          </div>
+
+          <div class="resume-entry">
+            <div class="resume-entry-head">
+              <span class="resume-title">Co-Owner &amp; Administrative Associate</span>
+              <span class="resume-date">Dec 2024 – Present</span>
+            </div>
+            <div class="resume-org">Artisan Jewelers — Marshfield, MA (20% Owner)</div>
+            <ul class="resume-bullets">
+              <li>Manage inventory, client records, and vendor communication</li>
+              <li>Assist clients with purchases and closing sales</li>
+              <li>Support daily operations and ensure smooth business flow</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="resume-group">
+          <div class="resume-group-title">Independent</div>
+          <div class="resume-entry">
+            <div class="resume-entry-head">
+              <span class="resume-title">Independent Trader</span>
+              <span class="resume-date">2019 – Present</span>
+            </div>
+            <div class="resume-org">Self-Managed Portfolio</div>
+            <ul class="resume-bullets">
+              <li>Six years of active stock trading; three years of futures trading</li>
+              <li>Manage a personal portfolio of equities and options with disciplined risk control</li>
+              <li>Apply systematic strategy development for consistent long-term growth</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="resume-group">
+          <div class="resume-group-title">Education</div>
+          <div class="resume-entry">
+            <div class="resume-entry-head">
+              <span class="resume-title">Bryant University</span>
+              <span class="resume-date">2023 – 2027</span>
+            </div>
+            <div class="resume-org">BS Business Administration: Finance Concentration</div>
+            <ul class="resume-bullets">
+              <li>Minors: Artificial Intelligence &amp; Communication</li>
+              <li><span class="award-inline">Dean's List</span> Fall 2024 · Spring 2025 · Fall 2025</li>
+              <li>GPA: <strong>3.33</strong></li>
+              <li>Statistics (A) · Managerial Accounting (A) · Operations Management (A)</li>
+              <li><strong>Top of class</strong> in Computer Science, High School 2022</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem">
+          <a href="Charles_Kerbaj_Resume-2.pdf" class="btn btn-outline">Download Résumé (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="section-eyebrow reveal"><div class="eyebrow-line"></div><span>Writing</span></div>
+    <h2 class="reveal">Thoughts &amp; <em>Notes</em></h2>
+    <p class="section-lead reveal">On trading, building tools, and the automation of everyday life.</p>
+    <div class="blog-grid">
+      <a href="blog/daily-printer.html" class="blog-card reveal">
+        <div class="blog-card-top">
+          <span class="blog-tag">Project Log</span>
+          <h3>Building a receipt printer that reads my calendar and thinks with Claude</h3>
+          <p>How I connected Canvas, Google Calendar, and the Claude API to print my entire day on one receipt.</p>
+        </div>
+        <div class="blog-foot"><span>Coming soon</span><span class="blog-read">Read →</span></div>
+      </a>
+      <a href="blog/trading.html" class="blog-card reveal">
+        <div class="blog-card-top">
+          <span class="blog-tag">Trading</span>
+          <h3>What six years of trading taught me about building systems</h3>
+          <p>Rules-based thinking applies to software the same way it applies to markets.</p>
+        </div>
+        <div class="blog-foot"><span>Coming soon</span><span class="blog-read">Read →</span></div>
+      </a>
+      <a href="blog/automation.html" class="blog-card reveal">
+        <div class="blog-card-top">
+          <span class="blog-tag">Automation</span>
+          <h3>Why I started helping others automate their lives</h3>
+          <p>Once you see how much time people waste on repetitive tasks, you cannot unsee it.</p>
+        </div>
+        <div class="blog-foot"><span>Coming soon</span><span class="blog-read">Read →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid reveal">
+      <div class="contact-left">
+        <div class="section-eyebrow"><div class="eyebrow-line"></div><span>Contact</span></div>
+        <h2>Let's work<br><em>together.</em></h2>
+        <p>Whether you have a project in mind, want to discuss markets, or are looking to automate something — my inbox is open.</p>
+        <a href="mailto:ckerbaj23@gmail.com" class="contact-email-link">ckerbaj23@gmail.com</a>
+      </div>
+      <div class="contact-right">
+        <div class="contact-item">
+          <span class="contact-item-label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/charles-kerbaj/">linkedin.com/in/charles-kerbaj</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">GitHub</span>
+          <a href="https://github.com/ckerbaj23">ckerbaj23</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">Phone</span>
+          <a href="tel:4016039775">(401) 603-9775</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">Location</span>
+          <a href="#">Cumberland, Rhode Island</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2025 Charles A. Kerbaj</span>
+    <a href="#hero">Back to top ↑</a>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+    reveals.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
