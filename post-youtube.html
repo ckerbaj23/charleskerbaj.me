@@ -56,7 +56,7 @@
     <h1>How I Helped a Friend Build His Own <em>YouTube Analytics Tool</em></h1>
     <p class="post-lead">A friend just started making YouTube videos and wanted to track his own analytics without relying on YouTube Studio. What followed was a crash course in APIs, Python, and why the setup always takes longer than the actual code.</p>
     <div class="post-body">
-      <p>A friend of mine recently started a YouTube channel. Like most new creators, he was obsessed with the numbers, views, watch time, click-through rates, but found YouTube Studio's interface clunky for the kind of analysis he wanted to do. He'd tried building his own dashboard but kept hitting a wall at the same place: the credentials.</p>
+      <p>A friend of mine recently started a YouTube channel. Like most new creators, he was obsessed with the numbers, views, watch time, click-through rates, but found YouTube Studio's interface clunky for the kind of analysis he wanted to do. He'd started building his own dashboard using a base64-based approach but it wasn't working the way he wanted. I ended up fully remaking it for him from scratch.</p>
       <p>He reached out and I walked him through the whole thing, start to finish, doing it in front of him so he could actually understand what was happening rather than just copy-pasting commands he didn't understand.</p>
 
       <h2>Where <em>Everyone Gets Stuck</em></h2>
@@ -71,9 +71,8 @@
       <p>The last thing we set up was a <strong>.bat file</strong>, a simple batch script on Windows that lets him run the whole thing with a double-click instead of opening a terminal and typing commands every time. That single quality-of-life addition made it something he'd actually use daily rather than once and forget.</p>
 
       <h2>API Safety, <em>The Part People Skip</em></h2>
-      <p>One thing I made sure to go through carefully was API key security. It's easy to hardcode credentials directly into a script when you're just getting something working, and a lot of tutorials do exactly that. The problem is that if you ever share your code, push it to GitHub, or even just leave it on a shared computer, your keys are exposed.</p>
-      <p>We set up a <strong>.env file</strong> to store the sensitive credentials separately from the code, added it to <strong>.gitignore</strong> so it would never accidentally get committed, and talked through what to do if a key ever did get compromised, how to revoke it, generate a new one, and rotate it without breaking the app.</p>
-      <p>It adds maybe ten minutes to the setup. It's worth it every time.</p>
+      <p>One thing I made sure to cover was API key security. We did not set up a .env file or .gitignore for this build, but I walked him through the risks of leaving credentials exposed in your code. If you ever share a script, push it to GitHub, or let someone else use your machine, a hardcoded API key is a liability.</p>
+      <p>I showed him where the key lives, how to revoke and regenerate it from the Google Cloud Console if it ever gets compromised, and why you should treat it like a password. Understanding the risk is the first step, even if the full security setup comes later.</p>
 
       <h2>Why I Enjoy <em>Doing This</em></h2>
       <p>The technical part of that afternoon took maybe two hours. But what I find genuinely satisfying about helping people with this stuff isn't the code, it's watching someone go from "I don't understand any of this" to "I could build the next part myself." That shift in confidence is the whole point.</p>
